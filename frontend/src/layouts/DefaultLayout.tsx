@@ -1,37 +1,29 @@
-import React from 'react';
-import Button from '../components/Button';
+import React, { useContext } from 'react';
 import Navbar from '../components/Navbar';
-import {
-  MdFormatBold as IconBold,
-  MdFormatItalic as IconItalic,
-  MdFormatListBulleted as IconListBulleted,
-  MdFormatListNumbered as IconListNumbered,
-  MdInsertLink as IconInsertLink,
-} from 'react-icons/all';
-import Divider from '../components/Divider/Divider';
+import Toolbar from '../components/Toolbar';
+import UsersList from '../components/UsersList';
+import Button from '../components/Button';
+import { ThemeContext } from 'styled-components';
 
 const DefaultLayout: React.FC = ({ children }) => {
+  const theme = useContext(ThemeContext);
+
+  const users = [
+    { id: 1, src: 'https://picsum.photos/64' },
+    { id: 2, src: '' },
+    { id: 3, src: 'https://picsum.photos/66' },
+    { id: 4, src: 'https://picsum.photos/67' },
+  ];
+
   return (
     <>
       <Navbar
-        left={
+        left={<Toolbar />}
+        right={
           <>
-            <Button text>
-              <IconBold />
-            </Button>
-            <Button text>
-              <IconItalic />
-            </Button>
-            <Divider />
-            <Button text>
-              <IconListBulleted />
-            </Button>
-            <Button text>
-              <IconListNumbered />
-            </Button>
-            <Divider />
-            <Button text>
-              <IconInsertLink />
+            <UsersList size={36} avatars={users} />
+            <Button sm color={theme.colors.primary}>
+              Log in
             </Button>
           </>
         }

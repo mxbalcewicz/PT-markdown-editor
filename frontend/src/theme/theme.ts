@@ -9,10 +9,11 @@ const breakpoints = {
 };
 
 const colors = {
-  primary: '#0D53FC',
+  primary: '#0d53fc',
   secondary: '#2e2e2e',
   default: '#e5e5e5',
   error: '#d72222',
+  white: '#ffffff',
 };
 
 const fontSize = {
