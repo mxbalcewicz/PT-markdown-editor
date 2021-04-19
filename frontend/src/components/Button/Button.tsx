@@ -33,7 +33,7 @@ const Button: React.FC<IButtonProps> = ({
 
 Button.defaultProps = {
   type: 'button',
-  color: '#f5f5f5',
+  color: '#393939',
   disabled: false,
 };
 

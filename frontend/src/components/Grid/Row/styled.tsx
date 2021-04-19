@@ -2,15 +2,34 @@ import styled, { css } from 'styled-components';
 import { IRowProps } from './Row';
 import { up } from 'styled-breakpoints';
 
+export type AlignContent =
+  | 'flex-start'
+  | 'flex-end'
+  | 'center'
+  | 'space-between'
+  | 'space-around'
+  | 'stretch';
+
+export type AlignItems =
+  | 'flex-start'
+  | 'flex-end'
+  | 'center'
+  | 'baseline'
+  | 'stretch';
+
+export type JustifyContent = AlignContent;
+
+export type JustifyItems = AlignItems;
+
 const createRowCss = (
-  alignContent?: string,
-  align?: string,
-  justify?: string,
+  alignContent?: AlignContent,
+  alignItems?: AlignItems,
+  justifyContent?: JustifyContent,
 ) => {
   return css`
     align-content: ${alignContent};
-    align-items: ${align};
-    justify-content: ${justify};
+    align-items: ${alignItems};
+    justify-content: ${justifyContent};
   `;
 };
 

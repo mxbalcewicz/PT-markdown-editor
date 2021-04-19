@@ -1,25 +1,30 @@
 import React from 'react';
-import { StyledContainer } from './styled';
+import {
+  AlignContent,
+  AlignItems,
+  JustifyContent,
+  StyledContainer,
+} from './styled';
 
 export interface IRowProps {
-  alignContent?: string;
-  alignContentSM?: string;
-  alignContentMD?: string;
-  alignContentLG?: string;
-  alignContentXL?: string;
-  alignContentXXL?: string;
-  align?: string;
-  alignSM?: string;
-  alignMD?: string;
-  alignLG?: string;
-  alignXL?: string;
-  alignXXL?: string;
-  justify?: string;
-  justifySM?: string;
-  justifyMD?: string;
-  justifyLG?: string;
-  justifyXL?: string;
-  justifyXXL?: string;
+  alignContent?: AlignContent;
+  alignContentSM?: AlignContent;
+  alignContentMD?: AlignContent;
+  alignContentLG?: AlignContent;
+  alignContentXL?: AlignContent;
+  alignContentXXL?: AlignContent;
+  align?: AlignItems;
+  alignSM?: AlignItems;
+  alignMD?: AlignItems;
+  alignLG?: AlignItems;
+  alignXL?: AlignItems;
+  alignXXL?: AlignItems;
+  justify?: JustifyContent;
+  justifySM?: JustifyContent;
+  justifyMD?: JustifyContent;
+  justifyLG?: JustifyContent;
+  justifyXL?: JustifyContent;
+  justifyXXL?: JustifyContent;
 }
 
 const Row: React.FC<IRowProps> = ({ children, ...props }) => {

@@ -11,7 +11,7 @@ const breakpoints = {
 const colors = {
   primary: '#0D53FC',
   secondary: '#2e2e2e',
-  default: '#d0d0d0',
+  default: '#e5e5e5',
   error: '#d72222',
 };
 

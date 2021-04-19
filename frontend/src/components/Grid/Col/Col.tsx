@@ -22,7 +22,6 @@ export interface IColProps {
   lg?: ColumnSize;
   xl?: ColumnSize;
   xxl?: ColumnSize;
-  alignSelf?: string;
 }
 
 const Col: React.FC<IColProps> = ({ children, ...props }) => {

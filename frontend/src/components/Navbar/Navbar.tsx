@@ -1,20 +1,16 @@
 import React from 'react';
-import { Col, Container, Row } from '../Grid';
-import { StyledContainer, StyledLogo } from './styled';
+import { StyledContainer, StyledContainerSide } from './styled';
 
-interface INavbarProps {}
+interface INavbarProps {
+  left?: React.ReactNode;
+  right?: React.ReactNode;
+}
 
-const Navbar: React.FC<INavbarProps> = ({ children }) => {
+const Navbar: React.VFC<INavbarProps> = ({ left, right }) => {
   return (
     <StyledContainer>
-      <Container>
-        <Row justify="space-between">
-          <Col>
-            <StyledLogo>Logo</StyledLogo>
-          </Col>
-          <Col>{children}</Col>
-        </Row>
-      </Container>
+      <StyledContainerSide>{left}</StyledContainerSide>
+      <StyledContainerSide>{right}</StyledContainerSide>
     </StyledContainer>
   );
 };
