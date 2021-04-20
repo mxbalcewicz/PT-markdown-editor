@@ -1,13 +1,16 @@
 import React from 'react';
 import DefaultLayout from '../layouts/DefaultLayout';
 import { Container } from '../components/Grid';
+import Editor from '../components/Editor';
 
-const HomePage = () => {
+const EditorPage = () => {
   return (
     <DefaultLayout>
-      <Container>Homepage</Container>
+      <Container>
+        <Editor />
+      </Container>
     </DefaultLayout>
   );
 };
 
-export default HomePage;
+export default EditorPage;

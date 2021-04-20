@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyledContainer, StyledContainerSide } from './styled';
 
-interface INavbarProps {
+export interface INavbarProps {
   left?: React.ReactNode;
   right?: React.ReactNode;
 }

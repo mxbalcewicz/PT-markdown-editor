@@ -9,13 +9,13 @@ interface IAvatar extends IAvatarProps {
   id: number | string;
 }
 
-export interface IUsersListProps {
+export interface IAvatarsListProps {
   size?: number;
   maxVisibleAvatars?: number;
   avatars?: IAvatar[];
 }
 
-const UsersList: React.VFC<IUsersListProps> = ({
+const AvatarsList: React.VFC<IAvatarsListProps> = ({
   size = 32,
   maxVisibleAvatars = 3,
   avatars,
@@ -35,11 +35,11 @@ const UsersList: React.VFC<IUsersListProps> = ({
         />
       )}
       {visibleAvatars &&
-        visibleAvatars.map(({ id, src }) => (
-          <Avatar src={src} size={size} key={id} />
+        visibleAvatars.map(({ id, src }, idx) => (
+          <Avatar src={src} size={size} key={id} data-animation-id={idx} />
         ))}
     </StyledContainer>
   );
 };
 
-export default UsersList;
+export default AvatarsList;

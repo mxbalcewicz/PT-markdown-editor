@@ -14,10 +14,15 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
+    height: 100vh;
     margin: 0;
     padding: 0;
     font-size: 1.6rem;
     font-family: "Open Sans", sans-serif;
+  }
+
+  #root {
+    height: 100%;
   }
 `;
 
