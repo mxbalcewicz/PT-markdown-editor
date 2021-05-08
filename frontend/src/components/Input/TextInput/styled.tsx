@@ -8,6 +8,9 @@ export const StyledLabel = styled.label`
 export const StyledSpan = styled.span`
   display: block;
   padding: 4px 0;
+  font-weight: 700;
+  font-size: ${({ theme }) => theme.label.fontSize};
+  color: ${({ theme }) => theme.label.fontSize};
 `;
 
 export interface InputProps {
@@ -23,6 +26,7 @@ export const StyledInput = styled.input<InputProps>`
   border-radius: 4px;
   position: relative;
   box-sizing: border-box;
+  transition: border-color 0.2s;
 
   &:hover {
     border: 1px solid ${({ theme }) => darken(0.1, theme.colors.default)};

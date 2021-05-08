@@ -16,6 +16,10 @@ const colors = {
   white: '#ffffff',
 };
 
+const border = {
+  radius: '4px',
+};
+
 const fontSize = {
   sm: '1.2rem',
   md: '1.4rem',
@@ -24,12 +28,20 @@ const fontSize = {
 };
 
 const button = {
-  borderRadius: '4px',
+  borderRadius: border.radius,
 };
 
 const input = {
-  fontSize: '1.4rem',
-  borderRadius: '4px',
+  fontSize: fontSize.md,
+  borderRadius: border.radius,
+};
+
+const error = {
+  fontSize: fontSize.md,
+};
+
+const label = {
+  fontSize: fontSize.sm,
 };
 
 export const theme = {
@@ -38,6 +50,8 @@ export const theme = {
   fontSize,
   button,
   input,
+  error,
+  label,
 };
 
 export default theme;

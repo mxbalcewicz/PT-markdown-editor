@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 
 const errorStyles = css`
   margin: 0;
+  font-size: ${({ theme }) => theme.error.fontSize};
   color: ${({ theme }) => theme.colors.error || 'red'};
 `;
 
