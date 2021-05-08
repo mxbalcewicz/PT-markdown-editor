@@ -4,7 +4,8 @@ import EditorPage from './views/EditorPage';
 import GlobalStyle from './theme/GlobalStyle';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './theme/theme';
-import './plugins/slate';
+import './plugins/slate/custom-types';
+import { Paths } from './router/paths';
 
 const App = () => {
   return (
@@ -12,7 +13,7 @@ const App = () => {
       <GlobalStyle />
       <ThemeProvider theme={theme}>
         <Switch>
-          <Route exact path="/" component={EditorPage} />
+          <Route exact path={Paths.Homepage} component={EditorPage} />
         </Switch>
       </ThemeProvider>
     </BrowserRouter>

@@ -2,7 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700;800&display=swap');
-  
+
   *, *::before, *::after {
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
@@ -23,6 +23,14 @@ const GlobalStyle = createGlobalStyle`
 
   #root {
     height: 100%;
+  }
+
+  blockquote {
+    margin: 16px 0;
+    padding: 8px 32px;
+    border-left-style: solid;
+    border-left-width: 2px;
+    border-color: #d7d7d7
   }
 `;
 

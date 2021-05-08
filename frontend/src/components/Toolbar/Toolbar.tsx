@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from '../Button';
 import {
   MdFormatBold as IconBold,
   MdFormatItalic as IconItalic,
@@ -8,27 +7,34 @@ import {
   MdFormatListNumbered as IconListNumbered,
   MdInsertLink as IconInsertLink,
 } from 'react-icons/md';
+import Button from '../Button';
 import Divider from '../Divider';
 import Tooltip from '../Tooltip';
+import { CustomElement } from '../../plugins/slate/custom-types';
 
 export interface IToolbarProps {}
 
 export type ToolbarItem = {
   tooltip?: string;
-  icon: JSX.Element;
+  icon: React.ReactNode;
+  type: CustomElement['type'];
 };
 
 const tools: ToolbarItem[][] = [
   [
-    { tooltip: 'Bold', icon: <IconBold /> },
-    { tooltip: 'Italic', icon: <IconItalic /> },
-    { tooltip: 'Underline', icon: <IconUnderlined /> },
+    { tooltip: 'Bold', icon: <IconBold />, type: 'block-quote' },
+    { tooltip: 'Italic', icon: <IconItalic />, type: 'list-item' },
+    { tooltip: 'Underline', icon: <IconUnderlined />, type: 'list-item' },
   ],
   [
-    { tooltip: 'Bulleted list', icon: <IconListBulleted /> },
-    { tooltip: 'Numbered list', icon: <IconListNumbered /> },
+    {
+      tooltip: 'Bulleted list',
+      icon: <IconListBulleted />,
+      type: 'bulleted-list',
+    },
+    { tooltip: 'Numbered list', icon: <IconListNumbered />, type: 'list-item' },
   ],
-  [{ tooltip: 'Link', icon: <IconInsertLink /> }],
+  [{ tooltip: 'Link', icon: <IconInsertLink />, type: 'link' }],
 ];
 
 const mapToToolButton = ({ tooltip, icon }: ToolbarItem) => (

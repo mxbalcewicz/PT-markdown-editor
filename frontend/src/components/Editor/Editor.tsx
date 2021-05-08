@@ -1,26 +1,41 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { withReact, Slate } from 'slate-react';
 import { createEditor, Descendant } from 'slate';
 import { StyledEditable } from './styled';
+import { withHistory } from 'slate-history';
+import withShortcuts from '../../hoc/withShortcuts';
+import Element from './Element';
+
+const initialContent: Descendant[] = [
+  {
+    type: 'paragraph',
+    children: [{ text: '' }],
+  },
+];
 
 interface IEditorProps {}
 
 const Editor: React.VFC<IEditorProps> = () => {
-  const editor = useMemo(() => withReact(createEditor()), []);
-  const [value, setValue] = useState<Descendant[]>([
-    {
-      type: 'paragraph',
-      children: [{ text: 'Lorem ipsum' }],
-    },
-  ]);
+  const renderElement = useCallback((props) => <Element {...props} />, []);
+  const editor = useMemo(
+    () => withShortcuts(withReact(withHistory(createEditor()))),
+    [],
+  );
+
+  const [content, setContent] = useState<Descendant[]>(initialContent);
 
   return (
     <Slate
       editor={editor}
-      value={value}
-      onChange={(newValue) => setValue(newValue)}
+      value={content}
+      onChange={(newContent) => setContent(newContent)}
     >
-      <StyledEditable />
+      <StyledEditable
+        spellCheck
+        autoFocus
+        renderElement={renderElement}
+        placeholder="Write some markdown..."
+      />
     </Slate>
   );
 };
