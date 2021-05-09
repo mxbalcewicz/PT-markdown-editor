@@ -1,5 +1,7 @@
-export enum Paths {
+enum Paths {
   Homepage = '/',
   Login = '/login',
   NotFound = '*',
 }
+
+export default Paths;

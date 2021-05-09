@@ -4,7 +4,7 @@ import GlobalStyle from './theme/GlobalStyle';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './theme/theme';
 import './plugins/slate/custom-types';
-import { Paths } from './router/paths';
+import Paths from './router/paths';
 import EditorPage from './views/EditorPage';
 import LoginPage from './views/LoginPage';
 
