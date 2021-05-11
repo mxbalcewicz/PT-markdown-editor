@@ -1,6 +1,7 @@
 enum Paths {
-  Homepage = '/',
-  Login = '/login',
+  Home = '/',
+  CreateNew = '/new',
+  Document = '/d/:hash',
   NotFound = '*',
 }
 

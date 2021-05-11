@@ -3,7 +3,7 @@ import GuestLayout from '../layouts/GuestLayout';
 import { Col, Container, Row } from '../components/Grid';
 import LoginForm from '../components/LoginForm';
 
-const EditorPage = () => {
+const LoginPage = () => {
   return (
     <GuestLayout>
       <Container>
@@ -17,4 +17,4 @@ const EditorPage = () => {
   );
 };
 
-export default EditorPage;
+export default LoginPage;

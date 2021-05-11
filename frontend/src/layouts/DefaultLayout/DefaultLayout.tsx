@@ -4,11 +4,17 @@ import Toolbar from '../../components/Toolbar';
 import AvatarsList from '../../components/UsersList';
 import Button from '../../components/Button';
 import { ThemeContext } from 'styled-components';
-import { avatars } from '../../components/UsersList/__mocks__/data';
 import { StyledContainer, StyledContentContainer } from './styled';
+import { useAppSelector } from '../../hooks';
 
 const DefaultLayout: React.FC = ({ children }) => {
+  const users = useAppSelector(({ users }) => users.users);
   const theme = useContext(ThemeContext);
+
+  const avatars = users.map((user) => ({
+    id: user,
+    src: 'https://picsum.photos/67',
+  }));
 
   return (
     <StyledContainer>

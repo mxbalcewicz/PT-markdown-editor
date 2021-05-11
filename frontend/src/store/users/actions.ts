@@ -1,5 +1,4 @@
-import { UsersService } from '../../services';
+import { User } from './slice';
+import { createAction } from '@reduxjs/toolkit';
 
-export const test = () => {
-  console.log(UsersService);
-};
+export const setUsers = createAction<User[]>('setUsers');

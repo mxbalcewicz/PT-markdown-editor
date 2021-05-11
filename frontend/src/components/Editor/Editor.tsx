@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { withReact, Slate } from 'slate-react';
 import {
   createEditor,
@@ -10,9 +10,15 @@ import { StyledEditable } from './styled';
 import { withHistory } from 'slate-history';
 import withShortcuts from '../../hoc/withShortcuts';
 import Element from './Element';
-import { useSocket } from '../../hooks';
+import { useAppDispatch, useAppSelector, useSocket } from '../../hooks';
+import config from '../../config';
+import useDebounce from '../../hooks/useDebounce';
+import { save } from '../../store/docs/actions';
+import { User } from '../../store/users/slice';
+import { setUsers } from '../../store/users/actions';
+const { api } = config;
 
-const initialContent: Descendant[] = [
+const defaultContent: Descendant[] = [
   {
     type: 'paragraph',
     children: [{ text: '' }],
@@ -24,18 +30,32 @@ const ignoredOperations = ['set_selection'];
 interface IEditorProps {}
 
 const Editor: React.VFC<IEditorProps> = () => {
+  const dispatch = useAppDispatch();
+  const document = useAppSelector(({ docs }) => docs.document);
+  const initialContent =
+    document!.content.length > 0 ? document!.content : defaultContent;
+
+  const [content, setContent] = useState<Descendant[]>(initialContent);
+  const debouncedContent = useDebounce(content, 2000);
+
   const renderElement = useCallback((props) => <Element {...props} />, []);
   const editor = useMemo(
     () => withShortcuts(withReact(withHistory(createEditor()))),
     [],
   );
 
-  const [content, setContent] = useState<Descendant[]>(initialContent);
+  useEffect(() => {
+    dispatch(save({ content, hash: document!.hash }));
+  }, [debouncedContent]);
 
   const handleUpdate = (operations: any) => {
     SlateEditor.withoutNormalizing(editor, () => {
       operations.forEach((operation: Operation) => editor.apply(operation));
     });
+  };
+
+  const handleUsersUpdate = (users: User[]) => {
+    dispatch(setUsers(users));
   };
 
   const handleChange = (changes: any) => {
@@ -58,8 +78,10 @@ const Editor: React.VFC<IEditorProps> = () => {
   };
 
   const { socket } = useSocket({
-    endpoint: 'localhost:3020',
+    endpoint: `${api.hostname}:${api.socketPort}`,
     onUpdate: handleUpdate,
+    onUsersUpdate: handleUsersUpdate,
+    room: document!.hash,
   });
 
   return (
