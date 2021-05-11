@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { AppGateway } from './app.gateway';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MongooseConfig } from './config/mongoose.config';
+import { EditorGateway } from './modules/editor/editor.gateway';
+import { PaperModule } from './modules/paper/paper.module';
 import config from './config';
 
 @Module({
@@ -16,8 +15,8 @@ import config from './config';
     MongooseModule.forRootAsync({
       useClass: MongooseConfig,
     }),
+    PaperModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, AppGateway],
+  providers: [EditorGateway],
 })
 export class AppModule {}
