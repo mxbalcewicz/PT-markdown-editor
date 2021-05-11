@@ -4,9 +4,11 @@ import Avatar from '../Avatar';
 import { IAvatarProps } from '../Avatar/Avatar';
 import { MdMoreHoriz as IconMore } from 'react-icons/all';
 import { ThemeContext } from 'styled-components';
+import Tooltip from '../Tooltip';
 
 interface IAvatar extends IAvatarProps {
   id: number | string;
+  name?: string;
 }
 
 export interface IAvatarsListProps {
@@ -35,8 +37,10 @@ const AvatarsList: React.VFC<IAvatarsListProps> = ({
         />
       )}
       {visibleAvatars &&
-        visibleAvatars.map(({ id, src }, idx) => (
-          <Avatar src={src} size={size} key={id} data-animation-id={idx} />
+        visibleAvatars.map(({ id, src, name }, idx) => (
+          <Tooltip key={id} text={name}>
+            <Avatar src={src} size={size} data-animation-id={idx} />
+          </Tooltip>
         ))}
     </StyledContainer>
   );
