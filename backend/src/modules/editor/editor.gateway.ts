@@ -23,6 +23,8 @@ export class EditorGateway
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('EditorGateway');
 
+  rooms = {};
+
   @SubscribeMessage('update')
   onUpdate(socket: Socket, operations): void {
     const opts = operations.map((operation) => ({
@@ -42,9 +44,7 @@ export class EditorGateway
   handleDisconnect(socket: Socket) {
     this.logger.log(`Client disconnected: ${socket.id}`);
 
-    socket.leaveAll();
-
-    this.updateRoomUsers(socket);
+    this.leaveRoom(socket);
   }
 
   async handleConnection(socket: Socket, ...args: any) {
@@ -53,10 +53,39 @@ export class EditorGateway
     socket.client.id = this.getRandomNickname();
 
     const room = socket.handshake.query.room;
-    await socket.join(room);
-    this.logger.log(`Client joined: ${room}`);
+    await this.joinRoom(room, socket);
+  }
 
-    this.updateRoomUsers(socket);
+  updateRoomUsers(room: string) {
+    const users = this.server.in(room).connected;
+
+    const nicknames = Object.keys(users).map(
+      (socketId) => users[socketId].client.id,
+    );
+
+    this.server.to(room).emit('update-users', nicknames);
+  }
+
+  async joinRoom(room: string, socket: Socket) {
+    this.logger.log(`Client joined: ${room}`);
+    const nickname = socket.client.id;
+    await socket.join(room);
+
+    if (!this.rooms[room]) {
+      this.rooms[room] = [];
+    }
+    this.rooms[room].push(nickname);
+    this.updateRoomUsers(room);
+  }
+
+  leaveRoom(socket: Socket) {
+    const roomId = Object.keys(this.rooms).find((roomId) =>
+      this.rooms[roomId].includes(socket.client.id),
+    );
+    console.log(roomId);
+    if (roomId !== undefined) {
+      this.updateRoomUsers(roomId);
+    }
   }
 
   getRandomNickname() {
@@ -69,19 +98,7 @@ export class EditorGateway
   }
 
   getRoom(socket: Socket) {
-    console.log(socket.rooms);
     const [id, room] = Object.keys(socket.rooms);
     return room;
-  }
-
-  updateRoomUsers(socket: Socket) {
-    const room = this.getRoom(socket);
-
-    const users = this.server.in(room).connected;
-    const nicknames = Object.keys(users)
-      .map((socketId) => users[socketId].client.id)
-      .filter((nickname) => nickname !== socket.client.id);
-
-    this.server.to(room).emit('update-users', nicknames);
   }
 }
