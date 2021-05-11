@@ -57,11 +57,7 @@ export class EditorGateway
   }
 
   updateRoomUsers(room: string) {
-    const users = this.server.in(room).connected;
-
-    const nicknames = Object.keys(users).map(
-      (socketId) => users[socketId].client.id,
-    );
+    const nicknames = this.rooms[room];
 
     this.server.to(room).emit('update-users', nicknames);
   }
@@ -79,11 +75,15 @@ export class EditorGateway
   }
 
   leaveRoom(socket: Socket) {
+    const nicknameToKick = socket.client.id;
     const roomId = Object.keys(this.rooms).find((roomId) =>
-      this.rooms[roomId].includes(socket.client.id),
+      this.rooms[roomId].includes(nicknameToKick),
     );
-    console.log(roomId);
+
     if (roomId !== undefined) {
+      this.rooms[roomId] = this.rooms[roomId].filter(
+        (nickname) => nickname !== nicknameToKick,
+      );
       this.updateRoomUsers(roomId);
     }
   }
