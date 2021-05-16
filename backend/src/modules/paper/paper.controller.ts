@@ -6,10 +6,13 @@ import {
   Put,
   Body,
   NotFoundException,
+  UseGuards,
 } from '@nestjs/common';
 import { PaperService } from './paper.service';
 import { UpdatePaperDto } from './dto/update-paper.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('api/documents')
 export class PaperController {
   constructor(private paperService: PaperService) {}

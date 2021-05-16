@@ -19,7 +19,7 @@ export class UserService {
   }
 
   findOne(id: string): Promise<User> {
-    return this.userModel.findById(id).exec();
+    return this.userModel.findOne({ id }).exec();
   }
 
   findOneByFacebookId(facebookId: string): Promise<User> {

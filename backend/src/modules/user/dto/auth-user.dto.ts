@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsString } from 'class-validator';
 
 export class AuthUserDto {
   @IsString()
@@ -12,4 +12,7 @@ export class AuthUserDto {
   @IsString()
   @IsNotEmpty()
   lastname: string;
+
+  @IsArray()
+  photos?: [];
 }
