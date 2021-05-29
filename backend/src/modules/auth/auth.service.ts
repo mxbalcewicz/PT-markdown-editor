@@ -1,10 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { AuthUserDto } from '../user/dto/auth-user.dto';
 import { User } from '../user/user.schema';
 import { ConfigService } from '@nestjs/config';
-import { TokenPayload } from './token-payload.interface';
+import {
+  RefreshTokenPayload,
+  TokenPayload,
+} from './types/token-payload.interface';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -23,32 +27,81 @@ export class AuthService {
       user = await this.register(authUserDto);
     }
 
-    return this.createAuthCookie(user);
+    return this.generateTokens(user);
+  }
+
+  async generateTokens(user: User) {
+    const {
+      refreshToken,
+      expiresIn: refreshTokenExpiresIn,
+    } = await this.generateRefreshToken(user);
+    const { accessToken, expiresIn } = this.generateAccessToken(user);
+
+    const refreshTokenCookie = this.createAuthCookie(
+      refreshToken,
+      refreshTokenExpiresIn,
+    );
+
+    return {
+      refreshTokenCookie: refreshTokenCookie,
+      accessToken: {
+        token: accessToken,
+        expiresIn: expiresIn,
+      },
+    };
   }
 
   async register(authUserDto: AuthUserDto) {
     return await this.usersService.create(authUserDto);
   }
 
-  async logout() {
-    return this.createNoAuthCookie();
+  createAuthCookie(accessToken: string, expirationTime: number) {
+    return `Authentication=${accessToken}; HttpOnly; Path=/; Max-Age=${expirationTime}; SameSite=None; Secure;`;
   }
 
-  async createAuthCookie(user: User) {
-    console.log(user.id);
+  createNoAuthCookie() {
+    return this.createAuthCookie('', 0);
+  }
+
+  async isRefreshTokenValid(
+    refreshToken: string,
+    user: User,
+  ): Promise<boolean> {
+    return await bcrypt.compare(refreshToken, user.refreshToken);
+  }
+
+  async generateRefreshToken(user: User) {
+    const payload: RefreshTokenPayload = {
+      id: user._id,
+    };
+
+    const secret = this.configService.get('jwt.refreshSecret');
+    const expiresIn = +this.configService.get(
+      'jwt.refreshSignOptions.expiresIn',
+    );
+
+    const refreshToken = this.jwtService.sign(payload, { secret, expiresIn });
+    const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
+
+    await this.usersService.update(user._id, {
+      refreshToken: hashedRefreshToken,
+    });
+
+    return { refreshToken, expiresIn };
+  }
+
+  generateAccessToken(user: User) {
     const payload: TokenPayload = {
-      id: user.id,
+      id: user._id,
       firstname: user.firstname,
       lastname: user.lastname,
     };
 
-    const expirationTime = this.configService.get('JWT_EXPIRATION_TIME');
-    const accessToken = this.jwtService.sign(payload);
+    const secret = this.configService.get('jwt.secret');
+    const expiresIn = +this.configService.get('jwt.signOptions.expiresIn');
 
-    return `Authentication=${accessToken}; HttpOnly; Path=/; Max-Age=${expirationTime}`;
-  }
+    const accessToken = this.jwtService.sign(payload, { secret, expiresIn });
 
-  async createNoAuthCookie() {
-    return `Authentication=; HttpOnly; Path=/; Max-Age=0`;
+    return { accessToken, expiresIn };
   }
 }

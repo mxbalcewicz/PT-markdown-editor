@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { AuthUserDto } from './dto/auth-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './user.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async create(authUserDto: AuthUserDto): Promise<User> {
-    const createdCat = new this.userModel(authUserDto);
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const createdCat = new this.userModel(createUserDto);
     return createdCat.save();
   }
 
@@ -19,14 +19,14 @@ export class UserService {
   }
 
   findOne(id: string): Promise<User> {
-    return this.userModel.findOne({ id }).exec();
+    return this.userModel.findById(id).exec();
   }
 
   findOneByFacebookId(facebookId: string): Promise<User> {
     return this.userModel.findOne({ facebookId }).exec();
   }
 
-  update(id: string, updateUserDto: UpdateUserDto): Promise<User | null> {
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User | null> {
     return this.userModel.findByIdAndUpdate(id, updateUserDto).exec();
   }
 

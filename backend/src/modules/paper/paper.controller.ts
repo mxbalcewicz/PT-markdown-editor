@@ -13,7 +13,7 @@ import { UpdatePaperDto } from './dto/update-paper.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @UseGuards(JwtAuthGuard)
-@Controller('api/documents')
+@Controller('documents')
 export class PaperController {
   constructor(private paperService: PaperService) {}
 

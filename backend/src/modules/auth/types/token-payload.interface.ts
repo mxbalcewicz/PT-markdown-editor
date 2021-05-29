@@ -3,3 +3,7 @@ export interface TokenPayload {
   firstname: string;
   lastname: string;
 }
+
+export interface RefreshTokenPayload {
+  id: string;
+}

@@ -7,7 +7,7 @@ export type UserDocument = User & Document;
 @Schema()
 export class User {
   @Prop({ default: uuidv4 })
-  id: string;
+  _id: string;
 
   @Prop()
   facebookId: string;
@@ -18,8 +18,11 @@ export class User {
   @Prop()
   lastname: string;
 
-  @Prop()
+  @Prop({ default: [] })
   photos: [];
+
+  @Prop({ default: '' })
+  refreshToken: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

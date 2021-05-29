@@ -1,31 +1,24 @@
-import { DocsService } from '../../services';
+import * as docsService from '../../api/services/docs.service';
 import { Document } from './slice';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Descendant } from 'slate';
 
+interface ICreateDocumentPayload {
+  content: Descendant[];
+  hash: string;
+}
+
 export const fetchOne = createAsyncThunk(
   'docs/fetchOne',
-  async (hash: string): Promise<Document> => {
-    return DocsService.get(hash);
-  },
+  async (hash: string): Promise<Document> => docsService.get(hash),
 );
 
-export const create = createAsyncThunk(
-  'docs/create',
-  async (): Promise<Document> => {
-    return DocsService.create();
-  },
-);
+export const fetchAll = createAsyncThunk('docs/fetchAll', docsService.getAll);
+
+export const create = createAsyncThunk('docs/create', docsService.create);
 
 export const save = createAsyncThunk(
   'docs/save',
-  async ({
-    hash,
-    content,
-  }: {
-    content: Descendant[];
-    hash: string;
-  }): Promise<Document> => {
-    return DocsService.save(hash, content);
-  },
+  async ({ hash, content }: ICreateDocumentPayload): Promise<Document> =>
+    docsService.save(hash, content),
 );

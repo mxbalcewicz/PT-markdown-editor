@@ -14,6 +14,7 @@ const colors = {
   default: '#e5e5e5',
   error: '#d72222',
   white: '#ffffff',
+  facebook: "#3b5998",
 };
 
 const border = {

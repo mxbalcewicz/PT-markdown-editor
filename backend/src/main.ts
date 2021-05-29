@@ -12,19 +12,22 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = configService.get('port');
 
-  app.enableCors({ origin: 'http://localhost:3000' });
-
-  const document = SwaggerModule.createDocument(app, swaggerConfig.build());
-  SwaggerModule.setup('api', app, document);
+  app.enableCors({
+    origin: ['http://localhost:3000', 'https://localhost:3000'],
+    credentials: true,
+  });
 
   app.use(cookieParser());
-
+  app.setGlobalPrefix('api');
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
       transform: true,
     }),
   );
+
+  const document = SwaggerModule.createDocument(app, swaggerConfig.build());
+  SwaggerModule.setup('api', app, document);
 
   await app.listen(port);
 }
