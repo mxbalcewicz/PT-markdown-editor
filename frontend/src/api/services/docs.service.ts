@@ -1,5 +1,5 @@
-import http from '../http';
-import { Document } from '../../store/docs/slice';
+import http from 'api/http';
+import { Document } from 'store/docs/slice';
 import { Descendant } from 'slate';
 
 export const getAll = async (): Promise<Document[]> => {

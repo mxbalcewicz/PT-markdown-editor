@@ -1,9 +1,9 @@
 import React from 'react';
-import Navbar from '../../components/Navbar';
-import Toolbar from '../../components/Toolbar';
-import AvatarsList from '../../components/UsersList';
+import Navbar from 'components/Navbar';
+import Toolbar from 'components/Toolbar';
+import AvatarsList from 'components/AvatarsList';
 import { StyledContainer, StyledContentContainer } from './styled';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from 'hooks';
 
 const DefaultLayout: React.FC = ({ children }) => {
   const users = useAppSelector(({ users }) => users.users);

@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import GuestLayout from '../layouts/GuestLayout';
-import { Container } from '../components/Grid';
+import GuestLayout from 'layouts/GuestLayout';
+import { Container } from 'components/Grid';
 import { Link } from 'react-router-dom';
-import Paths from '../router/paths';
-import Button from '../components/Button';
+import Paths from 'router/paths';
+import Button from 'components/Button';
 import { ThemeContext } from 'styled-components';
 
 const CreateNewPage = () => {

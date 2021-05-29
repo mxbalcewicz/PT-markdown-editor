@@ -5,10 +5,7 @@ import {
   Point,
   Element as SlateElement,
 } from 'slate';
-import {
-  BulletedListElement,
-  CustomElement,
-} from '../plugins/slate/custom-types';
+import { BulletedListElement, CustomElement } from 'plugins/slate/custom-types';
 
 const SHORTCUTS: { [key: string]: CustomElement['type'] } = {
   '*': 'list-item',

@@ -1,7 +1,7 @@
 import axios from 'axios';
-import config from '../config';
-import { HttpStatusCode } from '../types/http';
-import Paths from '../router/paths';
+import config from 'config';
+import { HttpStatusCode } from 'types/http';
+import Paths from 'router/paths';
 
 const { api } = config;
 

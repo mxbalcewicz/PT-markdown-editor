@@ -1,6 +1,6 @@
 import React from 'react';
 import { InputProps, StyledInput, StyledLabel, StyledSpan } from './styled';
-import Error from '../Error/Error';
+import Error from '../Error';
 
 export interface ITextInputProps extends InputProps {
   name: string;

@@ -1,15 +1,15 @@
 import React, { useCallback, useContext } from 'react';
-import GuestLayout from '../layouts/GuestLayout';
-import { Col, Container, Row } from '../components/Grid';
-import LoginForm from '../components/LoginForm';
+import GuestLayout from 'layouts/GuestLayout';
+import { Col, Container, Row } from 'components/Grid';
+import LoginForm from 'components/LoginForm';
 import { ThemeContext } from 'styled-components';
-import Button from '../components/Button';
+import Button from 'components/Button';
 import FacebookLogin from 'react-facebook-login-typed';
-import { useAppDispatch, useAppSelector } from '../hooks';
-import { login, logout } from '../store/auth/actions';
-import { fetchAll } from '../store/docs/actions';
+import { useAppDispatch, useAppSelector } from 'hooks';
+import { login, logout } from 'store/auth/actions';
+import { fetchAll } from 'store/docs/actions';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { getEnvironmentVariable } from '../utils/env';
+import { getEnvironmentVariable } from 'utils/env';
 
 const LoginPage = () => {
   const theme = useContext(ThemeContext);

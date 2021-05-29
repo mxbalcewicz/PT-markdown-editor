@@ -2,7 +2,7 @@ import React from 'react';
 import { Meta, Story } from '@storybook/react';
 
 import Button, { IButtonProps } from './Button';
-import theme from '../../theme/theme';
+import theme from 'theme/theme';
 
 export default {
   title: 'Atoms/Button',

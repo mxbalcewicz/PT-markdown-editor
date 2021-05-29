@@ -4,7 +4,7 @@ import {
   isFulfilledAction,
   isPendingAction,
   isRejectedAction,
-} from '../../utils/actions';
+} from 'utils/actions';
 
 export interface AuthState {
   isAuthenticated: boolean;

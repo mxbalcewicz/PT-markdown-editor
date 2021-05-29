@@ -1,4 +1,4 @@
-import * as docsService from '../../api/services/docs.service';
+import * as docsService from 'api/services/docs.service';
 import { Document } from './slice';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Descendant } from 'slate';

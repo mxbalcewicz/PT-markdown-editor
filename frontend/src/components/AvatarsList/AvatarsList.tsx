@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { StyledContainer } from './styled';
-import Avatar from '../Avatar';
-import { IAvatarProps } from '../Avatar/Avatar';
+import Avatar from 'components/Avatar';
+import { IAvatarProps } from 'components/Avatar/Avatar';
 import { MdMoreHoriz as IconMore } from 'react-icons/all';
 import { ThemeContext } from 'styled-components';
-import Tooltip from '../Tooltip';
+import Tooltip from 'components/Tooltip';
 
 interface IAvatar extends IAvatarProps {
   id: number | string;

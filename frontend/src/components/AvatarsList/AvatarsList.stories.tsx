@@ -5,7 +5,7 @@ import { avatars } from './__mocks__/data';
 import AvatarsList, { IAvatarsListProps } from './AvatarsList';
 
 export default {
-  title: 'Molecules/UsersList',
+  title: 'Molecules/AvatarsList',
   component: AvatarsList,
   argTypes: {
     avatars: {

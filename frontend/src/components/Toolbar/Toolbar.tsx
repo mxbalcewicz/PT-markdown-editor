@@ -7,10 +7,10 @@ import {
   MdFormatListNumbered as IconListNumbered,
   MdInsertLink as IconInsertLink,
 } from 'react-icons/md';
-import Button from '../Button';
-import Divider from '../Divider';
-import Tooltip from '../Tooltip';
-import { CustomElement } from '../../plugins/slate/custom-types';
+import Button from 'components/Button';
+import Divider from 'components/Divider';
+import Tooltip from 'components/Tooltip';
+import { CustomElement } from 'plugins/slate/custom-types';
 
 export interface IToolbarProps {}
 

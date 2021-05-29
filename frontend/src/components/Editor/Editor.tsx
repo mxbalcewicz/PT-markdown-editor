@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useAppDispatch, useAppSelector, useSocket, useDebounce } from 'hooks';
 import { withReact, Slate } from 'slate-react';
 import {
   createEditor,
@@ -8,14 +9,12 @@ import {
 } from 'slate';
 import { StyledEditable } from './styled';
 import { withHistory } from 'slate-history';
-import withShortcuts from '../../hoc/withShortcuts';
+import withShortcuts from 'hoc/withShortcuts';
 import Element from './Element';
-import { useAppDispatch, useAppSelector, useSocket } from '../../hooks';
-import config from '../../config';
-import useDebounce from '../../hooks/useDebounce';
-import { save } from '../../store/docs/actions';
-import { User } from '../../store/users/slice';
-import { setUsers } from '../../store/users/actions';
+import { save } from 'store/docs/actions';
+import { User } from 'store/users/slice';
+import { setUsers } from 'store/users/actions';
+import config from 'config';
 const { api } = config;
 
 const defaultContent: Descendant[] = [
@@ -63,10 +62,14 @@ const Editor: React.VFC<IEditorProps> = () => {
 
     const opts = editor.operations
       .filter((operation) => {
-        if (ignoredOperations.includes(operation.type)) return false;
+        if (ignoredOperations.includes(operation.type)) {
+          return false;
+        }
 
         // @ts-ignore
-        if (!!operation.source && operation.source === 'remote') return false;
+        if (!!operation.source && operation.source === 'remote') {
+          return false;
+        }
 
         return true;
       })

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import GuestLayout from '../layouts/GuestLayout';
-import { Container } from '../components/Grid';
-import Button from '../components/Button';
-import Paths from '../router/paths';
+import GuestLayout from 'layouts/GuestLayout';
+import { Container } from 'components/Grid';
+import Button from 'components/Button';
+import Paths from 'router/paths';
 import { ThemeContext } from 'styled-components';
 import { Link } from 'react-router-dom';
 

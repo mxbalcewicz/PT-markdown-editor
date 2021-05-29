@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import { useAppDispatch } from '../hooks';
+import { useAppDispatch } from 'hooks';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useHistory } from 'react-router-dom';
-import { generatePath } from '../utils/router';
-import Paths from '../router/paths';
-import { create as createDocument } from '../store/docs/actions';
+import { generatePath } from 'utils/router';
+import Paths from 'router/paths';
+import { create as createDocument } from 'store/docs/actions';
 
 const CreateNewPage = () => {
   const history = useHistory();

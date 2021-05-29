@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import TextInput from '../Input/TextInput';
-import Button from '../Button';
+import TextInput from 'components/Input/TextInput';
+import Button from 'components/Button';
 import { StyledForm } from './styled';
 import { ThemeContext } from 'styled-components';
 import { useForm } from 'react-hook-form';

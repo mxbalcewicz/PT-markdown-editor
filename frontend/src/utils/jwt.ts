@@ -1,4 +1,4 @@
-import { refreshTimeoutOffset } from '../constants/jwt';
+import { refreshTimeoutOffset } from 'constants/jwt';
 
 export const getExpireTimeWithOffset = (expireInSeconds: number) => {
   const expireInMilliseconds = expireInSeconds * 1000;

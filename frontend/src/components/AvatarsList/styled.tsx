@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { StyledImageContainer } from '../Avatar/styled';
+import { StyledImageContainer } from 'components/Avatar/styled';
 
 export const StyledContainer = styled.div`
   display: flex;
