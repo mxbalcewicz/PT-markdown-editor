@@ -3,7 +3,7 @@ import { useAppDispatch } from 'hooks';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useHistory } from 'react-router-dom';
 import { generatePath } from 'utils/router';
-import Paths from 'router/paths';
+import Paths from 'constants/paths';
 import { create as createDocument } from 'store/docs/actions';
 
 const CreateNewPage = () => {

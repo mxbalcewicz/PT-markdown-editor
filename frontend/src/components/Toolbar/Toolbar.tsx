@@ -10,7 +10,7 @@ import {
 import Button from 'components/Button';
 import Divider from 'components/Divider';
 import Tooltip from 'components/Tooltip';
-import { CustomElement } from 'plugins/slate/custom-types';
+import { CustomElement } from 'libs/slate/custom-types';
 
 export interface IToolbarProps {}
 

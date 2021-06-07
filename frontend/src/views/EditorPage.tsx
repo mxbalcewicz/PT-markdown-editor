@@ -6,7 +6,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import { fetchOne as fetchDocument } from 'store/docs/actions';
 import { unwrapResult } from '@reduxjs/toolkit';
-import Paths from 'router/paths';
+import Paths from 'constants/paths';
 
 interface IEditorPageParams {
   hash: string;
