@@ -1,17 +1,17 @@
 import React, { useCallback } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { useTheme } from 'styled-components';
+import FacebookLogin from 'react-facebook-login-typed';
+import { useAppDispatch, useAppSelector } from 'hooks';
 import DefaultLayout from 'layouts/GuestLayout';
 import { Col, Container, Row } from 'components/Grid';
 import LoginForm from 'components/LoginForm';
-import { useTheme } from 'styled-components';
 import Button from 'components/Button';
-import FacebookLogin from 'react-facebook-login-typed';
-import { useAppDispatch, useAppSelector } from 'hooks';
-import { loginFacebook, loginLocal } from 'store/auth/actions';
+import DividerText from 'components/DividerText';
+import Paths from 'constants/paths';
+import { ILoginLocalPayload } from 'types/auth';
 import { getEnvironmentVariable } from 'utils/env';
-import DividerText from '../components/DividerText';
-import { ILoginLocalPayload } from '../types/auth';
-import { Link, useHistory } from 'react-router-dom';
-import Paths from '../constants/paths';
+import { loginFacebook, loginLocal } from 'store/auth/actions';
 
 const LoginPage = () => {
   const history = useHistory();
@@ -52,7 +52,7 @@ const LoginPage = () => {
           </Col>
         </Row>
         <Row>
-          <Col md={6} offsetMD={3}>
+          <Col cols={12} md={6} offsetMD={3}>
             <FacebookLogin
               appId={getEnvironmentVariable('FB_APP_ID') || ''}
               fields="name,email,picture"
@@ -69,7 +69,7 @@ const LoginPage = () => {
               )}
             />
           </Col>
-          <Col md={6} offsetMD={3}>
+          <Col cols={12} md={6} offsetMD={3}>
             <Link to={Paths.Register}>
               <Button color={theme.colors.primary} block outlined>
                 Register
