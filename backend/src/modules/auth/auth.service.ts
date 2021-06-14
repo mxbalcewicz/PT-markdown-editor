@@ -19,10 +19,10 @@ export class AuthService {
     private configService: ConfigService,
   ) {}
 
-  async validateUser(username: string, pass: string): Promise<User> {
-    const user = await this.usersService.findOne(username);
+  async validateUser(email: string, password: string): Promise<User> {
+    const user = await this.usersService.findOneByEmail(email);
 
-    if (user && (await bcrypt.compare(pass, user.password))) {
+    if (user && (await bcrypt.compare(password, user.password))) {
       return user;
     }
 
