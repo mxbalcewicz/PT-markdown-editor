@@ -7,6 +7,7 @@ import {
   Body,
   NotFoundException,
   UseGuards,
+  Delete,
 } from '@nestjs/common';
 import { PaperService } from './paper.service';
 import { UpdatePaperDto } from './dto/update-paper.dto';
@@ -25,27 +26,25 @@ export class PaperController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Delete(':hash')
+  delete(@User() user: UserModel, @Param('hash') hash: string) {
+    return this.paperService.delete(user, hash);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll(@User() user: UserModel) {
     return this.paperService.findAll(user);
   }
 
   @Get(':hash')
-  async findOne(@Param('hash') hash: string) {
-    const paper = await this.paperService.findOne(hash);
-    if (!paper) {
-      throw new NotFoundException();
-    }
-    return paper;
+  findOne(@Param('hash') hash: string) {
+    return this.paperService.findOne(hash);
   }
 
   @Get('read/:readHash')
-  async findOneByReadHash(@Param('readHash') readHash: string) {
-    const paper = await this.paperService.findOneByReadHash(readHash);
-    if (!paper) {
-      throw new NotFoundException();
-    }
-    return paper;
+  findOneByReadHash(@Param('readHash') readHash: string) {
+    return this.paperService.findOneByReadHash(readHash);
   }
 
   @Put(':hash')
