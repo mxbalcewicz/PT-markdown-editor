@@ -1,17 +1,13 @@
-import { IsArray, IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class AuthUserDto {
-  @IsString()
+  @IsEmail()
   @IsNotEmpty()
-  facebookId: string;
+  email: string;
 
   @IsString()
   @IsNotEmpty()
-  firstname: string;
-
-  @IsString()
-  @IsNotEmpty()
-  lastname: string;
+  username: string;
 
   @IsArray()
   photos?: [];

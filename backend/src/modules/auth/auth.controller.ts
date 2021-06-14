@@ -1,18 +1,15 @@
 import { Controller, UseGuards, Post, Res } from '@nestjs/common';
-import { response, Response } from 'express';
+import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { User } from '../user/user.decorator';
 import { User as UserModel } from '../user/user.schema';
 import { AuthUserDto } from '../user/dto/auth-user.dto';
 import { FacebookAuthGuard } from './guards/facebook-auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { JwtRefreshAuthGuard } from './guards/jwt-refresh-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { Body } from '@nestjs/common';
 import { RegisterUserDto } from '../user/dto/register-user.dto';
-import * as bcrypt from 'bcrypt';
-import { AuthLocalUserDto } from '../user/dto/auth-local-user.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -64,8 +61,11 @@ export class AuthController {
   }
 
   @Post('register')
-  async registerLocal(@Body() registerUserDto: RegisterUserDto, @Res() response: Response){
-    this.authService.registerLocal(registerUserDto);
-    return response.status(200);
+  async registerLocal(
+    @Body() registerUserDto: RegisterUserDto,
+    @Res() response: Response,
+  ) {
+    await this.authService.registerLocal(registerUserDto);
+    return response.sendStatus(200);
   }
 }

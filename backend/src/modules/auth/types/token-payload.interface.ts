@@ -1,7 +1,6 @@
 export interface TokenPayload {
   id: string;
-  firstname: string;
-  lastname: string;
+  username: string;
 }
 
 export interface RefreshTokenPayload {

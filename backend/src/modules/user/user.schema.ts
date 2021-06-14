@@ -10,28 +10,19 @@ export class User {
   _id: string;
 
   @Prop()
-  facebookId: string;
+  username: string;
+
+  @Prop({ unique: true })
+  email: string;
 
   @Prop()
-  firstname: string;
-
-  @Prop()
-  lastname: string;
+  password: string;
 
   @Prop({ default: [] })
   photos: [];
 
   @Prop({ default: '' })
   refreshToken: string;
-
-  @Prop()
-  password: string;
-
-  @Prop()
-  username: string;
-
-  @Prop({unique: true})
-  email: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

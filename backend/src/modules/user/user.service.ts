@@ -25,16 +25,12 @@ export class UserService {
     return registeredUser.save();
   }
 
-  findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
-  }
-
   findOne(id: string): Promise<User> {
     return this.userModel.findById(id).exec();
   }
 
-  findOneByFacebookId(facebookId: string): Promise<User> {
-    return this.userModel.findOne({ facebookId }).exec();
+  findOneByEmail(email: string): Promise<User> {
+    return this.userModel.findOne({ email }).exec();
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User | null> {

@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { AuthUserDto } from '../user/dto/auth-user.dto';
@@ -11,7 +11,6 @@ import {
 import * as bcrypt from 'bcrypt';
 import { RegisterUserDto } from '../user/dto/register-user.dto';
 
-
 @Injectable()
 export class AuthService {
   constructor(
@@ -19,11 +18,11 @@ export class AuthService {
     private jwtService: JwtService,
     private configService: ConfigService,
   ) {}
-  
+
   async validateUser(username: string, pass: string): Promise<User> {
     const user = await this.usersService.findOne(username);
 
-    if (user && bcrypt.compare(pass, user.password)) {
+    if (user && (await bcrypt.compare(pass, user.password))) {
       return user;
     }
 
@@ -34,14 +33,18 @@ export class AuthService {
     return this.generateTokens(user);
   }
 
-  async registerLocal(user: RegisterUserDto) {
-    await this.usersService.createLocal(user);
+  async registerLocal(registerUserDto: RegisterUserDto) {
+    let user = await this.usersService.findOneByEmail(registerUserDto.email);
+
+    if (user) {
+      throw new ConflictException();
+    }
+
+    await this.usersService.createLocal(registerUserDto);
   }
 
   async loginOrRegister(authUserDto: AuthUserDto) {
-    let user = await this.usersService.findOneByFacebookId(
-      authUserDto.facebookId,
-    );
+    let user = await this.usersService.findOneByEmail(authUserDto.email);
 
     if (!user) {
       user = await this.register(authUserDto);
@@ -113,8 +116,7 @@ export class AuthService {
   generateAccessToken(user: User) {
     const payload: TokenPayload = {
       id: user._id,
-      firstname: user.firstname,
-      lastname: user.lastname,
+      username: user.username,
     };
 
     const secret = this.configService.get('jwt.secret');
