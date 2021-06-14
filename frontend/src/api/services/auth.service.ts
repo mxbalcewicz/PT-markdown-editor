@@ -1,18 +1,15 @@
 import http from 'api/http';
-import { ILoginLocalPayload, IRegisterPayload } from 'types/auth';
-
-export interface IAuthResponse {
-  accessToken: {
-    token: string;
-    expiresIn: number;
-  };
-}
+import {
+  IAuthResponse,
+  ILoginLocalPayload,
+  IRegisterPayload,
+} from 'types/auth';
 
 export const loginFacebook = async (
   facebookAccessToken: string,
 ): Promise<IAuthResponse> => {
   const { data } = await http.post(
-    `/auth/login`,
+    `/auth/login/facebook`,
     {},
     { headers: { Authorization: `Bearer ${facebookAccessToken}` } },
   );
@@ -26,18 +23,12 @@ export const loginLocal = async (
   return data;
 };
 
-export const register = async (payload: IRegisterPayload): Promise<boolean> => {
-  try {
-    await http.post(`/auth/register`, payload);
-    return true;
-  } catch {
-    return false;
-  }
+export const register = async (payload: IRegisterPayload): Promise<void> => {
+  await http.post(`/auth/register`, payload);
 };
 
-export const logout = async (): Promise<boolean> => {
+export const logout = async (): Promise<void> => {
   await http.post('/auth/logout');
-  return true;
 };
 
 export const refreshToken = async (): Promise<IAuthResponse> => {

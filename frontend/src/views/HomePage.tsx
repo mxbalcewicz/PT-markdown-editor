@@ -9,6 +9,7 @@ const HomePage = () => {
   const dispatch = useAppDispatch();
   const documents = useAppSelector(({ docs }) => docs.documents);
   const isAuthenticated = useAppSelector(({ auth }) => auth.isAuthenticated);
+  const username = useAppSelector(({ auth }) => auth.username);
 
   useEffect(() => {
     if (isAuthenticated) dispatch(fetchUserDocs());
@@ -17,7 +18,7 @@ const HomePage = () => {
   return (
     <DefaultLayout>
       <Container>
-        <h2>Hello Tymon</h2>
+        <h2>Hello {username}</h2>
         <DocumentsList documents={documents} />
       </Container>
     </DefaultLayout>

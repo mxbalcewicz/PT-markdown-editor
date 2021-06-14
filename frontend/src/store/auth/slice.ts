@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loginFacebook, loginLocal, logout, refreshToken } from './actions';
+import {
+  loginFacebook,
+  loginLocal,
+  logout,
+  refreshToken,
+  setUsername,
+} from './actions';
 import {
   isFulfilledAction,
   isPendingAction,
@@ -7,12 +13,14 @@ import {
 } from 'utils/actions';
 
 export interface AuthState {
+  username: string;
   isAuthenticated: boolean;
   isPending: boolean;
   isRefreshed: boolean;
 }
 
 const initialState: AuthState = {
+  username: '',
   isAuthenticated: false,
   isPending: false,
   isRefreshed: false,
@@ -38,6 +46,9 @@ export const authSlice = createSlice({
     });
     builder.addCase(loginLocal.fulfilled, (state) => {
       state.isAuthenticated = true;
+    });
+    builder.addCase(setUsername, (state, action) => {
+      state.username = action.payload;
     });
     builder.addMatcher(isPendingAction, (state) => {
       state.isPending = true;

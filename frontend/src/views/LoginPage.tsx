@@ -7,8 +7,6 @@ import Button from 'components/Button';
 import FacebookLogin from 'react-facebook-login-typed';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import { loginFacebook, loginLocal } from 'store/auth/actions';
-import { fetchAll } from 'store/docs/actions';
-import { unwrapResult } from '@reduxjs/toolkit';
 import { getEnvironmentVariable } from 'utils/env';
 import DividerText from '../components/DividerText';
 import { ILoginLocalPayload } from '../types/auth';
@@ -20,10 +18,6 @@ const LoginPage = () => {
   const theme = useTheme();
   const dispatch = useAppDispatch();
   const isPending = useAppSelector(({ auth }) => auth.isPending);
-
-  const handleTest = async () => {
-    const result = await dispatch(fetchAll()).then(unwrapResult);
-  };
 
   const handleLogin = async (payload: ILoginLocalPayload) => {
     try {
@@ -82,14 +76,6 @@ const LoginPage = () => {
               </Button>
             </Link>
           </Col>
-          <Button
-            type="submit"
-            color={theme.colors.primary}
-            onClick={handleTest}
-            disabled={isPending}
-          >
-            Test
-          </Button>
         </Row>
       </Container>
     </DefaultLayout>
