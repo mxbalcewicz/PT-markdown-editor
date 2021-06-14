@@ -14,7 +14,9 @@ const colors = {
   default: '#e5e5e5',
   error: '#d72222',
   white: '#ffffff',
-  facebook: "#3b5998",
+  facebook: '#3b5998',
+  lightgray: '#dedede',
+  gray: '#656565',
 };
 
 const border = {
@@ -45,6 +47,14 @@ const label = {
   fontSize: fontSize.sm,
 };
 
+const zindex = {
+  modal: 1000,
+};
+
+const modal = {
+  borderRadius: border.radius,
+};
+
 export const theme = {
   breakpoints,
   colors,
@@ -53,6 +63,8 @@ export const theme = {
   input,
   error,
   label,
+  zindex,
+  modal,
 };
 
 export default theme;

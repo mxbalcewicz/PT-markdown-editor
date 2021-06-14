@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import DefaultLayout from 'layouts/DefaultLayout';
+import EditorLayout from 'layouts/DefaultLayout';
 import { Container } from 'components/Grid';
 import Editor from 'components/Editor';
 import { useHistory, useParams } from 'react-router-dom';
@@ -12,22 +12,26 @@ interface IEditorPageParams {
   hash: string;
 }
 
-const EditorPage: React.VFC = () => {
+interface IEditorPageProps {
+  isReadOnly?: boolean;
+}
+
+const EditorPage: React.VFC<IEditorPageProps> = ({ isReadOnly = false }) => {
   const isLoaded = useAppSelector(({ docs }) => !!docs.document);
   const { hash } = useParams<IEditorPageParams>();
   const dispatch = useAppDispatch();
   const history = useHistory();
 
   useEffect(() => {
-    dispatch(fetchDocument(hash))
+    dispatch(fetchDocument({ hash, isReadOnly }))
       .then(unwrapResult)
       .catch(() => history.replace(Paths.Home));
   }, [dispatch, hash, history]);
 
   return (
-    <DefaultLayout>
-      <Container>{isLoaded && <Editor />}</Container>
-    </DefaultLayout>
+    <EditorLayout>
+      <Container>{isLoaded && <Editor isReadOnly={isReadOnly} />}</Container>
+    </EditorLayout>
   );
 };
 

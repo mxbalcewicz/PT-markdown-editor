@@ -1,1 +1,1 @@
-export { default } from './GuestLayout';
+export { default } from './DefaultLayout';

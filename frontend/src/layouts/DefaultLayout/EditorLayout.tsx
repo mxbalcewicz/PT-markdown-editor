@@ -2,10 +2,10 @@ import React from 'react';
 import Navbar from 'components/Navbar';
 import Toolbar from 'components/Toolbar';
 import AvatarsList from 'components/AvatarsList';
-import { StyledContainer, StyledContentContainer } from './styled';
+import { StyledContainer, StyledContentContainer } from './EditorLayout.styled';
 import { useAppSelector } from 'hooks';
 
-const DefaultLayout: React.FC = ({ children }) => {
+const EditorLayout: React.FC = ({ children }) => {
   const users = useAppSelector(({ users }) => users.users);
 
   const avatars = users.map((user) => ({
@@ -16,7 +16,11 @@ const DefaultLayout: React.FC = ({ children }) => {
   return (
     <StyledContainer>
       <Navbar
-        left={<Toolbar />}
+        left={
+          <>
+            <Toolbar />
+          </>
+        }
         right={<AvatarsList size={36} avatars={avatars} />}
       />
       <StyledContentContainer>{children}</StyledContentContainer>
@@ -24,4 +28,4 @@ const DefaultLayout: React.FC = ({ children }) => {
   );
 };
 
-export default DefaultLayout;
+export default EditorLayout;

@@ -14,7 +14,7 @@ const CreateNewPage = () => {
     dispatch(createDocument())
       .then(unwrapResult)
       .then(({ hash }) => {
-        const path = generatePath(Paths.Document, { hash });
+        const path = generatePath(Paths.EditDocument, { hash });
         history.replace(path);
       })
       .catch(() => history.push(Paths.Home));

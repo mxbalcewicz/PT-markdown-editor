@@ -8,6 +8,7 @@ export interface ITextInputProps extends InputProps {
   label?: string;
   placeholder?: string;
   required?: boolean;
+  disabled?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   error?: string;
@@ -17,6 +18,7 @@ const TextInput = React.forwardRef<HTMLInputElement, ITextInputProps>(
   (
     {
       type = 'text',
+      disabled = false,
       required = false,
       block = false,
       rounded = false,
@@ -38,6 +40,7 @@ const TextInput = React.forwardRef<HTMLInputElement, ITextInputProps>(
           placeholder={placeholder}
           type={type}
           required={required}
+          disabled={disabled}
           onChange={onChange}
           onBlur={onBlur}
           block={block}

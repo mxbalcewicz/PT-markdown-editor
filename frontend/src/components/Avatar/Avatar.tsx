@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { StyledImageContainer, StyledImage } from './styled';
 import { MdPerson as IconPerson } from 'react-icons/all';
-import { ThemeContext } from 'styled-components';
+import { useTheme } from 'styled-components';
 
 export interface IAvatarProps {
   size?: number;
@@ -10,7 +10,7 @@ export interface IAvatarProps {
 }
 
 const Avatar: React.VFC<IAvatarProps> = ({ size = 32, src, fallbackIcon }) => {
-  const theme = useContext(ThemeContext);
+  const theme = useTheme();
   const icon = fallbackIcon || <IconPerson color={theme.colors.white} />;
 
   return (

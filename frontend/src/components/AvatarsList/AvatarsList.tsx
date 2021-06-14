@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { StyledContainer } from './styled';
 import Avatar from 'components/Avatar';
 import { IAvatarProps } from 'components/Avatar/Avatar';
 import { MdMoreHoriz as IconMore } from 'react-icons/all';
-import { ThemeContext } from 'styled-components';
+import { useTheme } from 'styled-components';
 import Tooltip from 'components/Tooltip';
 
 interface IAvatar extends IAvatarProps {
@@ -22,7 +22,7 @@ const AvatarsList: React.VFC<IAvatarsListProps> = ({
   maxVisibleAvatars = 3,
   avatars,
 }) => {
-  const theme = useContext(ThemeContext);
+  const theme = useTheme();
 
   const visibleAvatars = avatars && avatars.slice(0, maxVisibleAvatars);
   const isVisibleAvatarsExceeded =

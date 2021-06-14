@@ -1,22 +1,27 @@
-import React, { useContext } from 'react';
-import GuestLayout from 'layouts/GuestLayout';
+import React, { useEffect } from 'react';
+import DefaultLayout from 'layouts/GuestLayout';
 import { Container } from 'components/Grid';
-import { Link } from 'react-router-dom';
-import Paths from 'constants/paths';
-import Button from 'components/Button';
-import { ThemeContext } from 'styled-components';
+import { useAppDispatch, useAppSelector } from 'hooks';
+import { fetchAll as fetchUserDocs } from 'store/docs/actions';
+import DocumentsList from 'components/DocumentsList';
 
-const CreateNewPage = () => {
-  const theme = useContext(ThemeContext);
+const HomePage = () => {
+  const dispatch = useAppDispatch();
+  const documents = useAppSelector(({ docs }) => docs.documents);
+  const isAuthenticated = useAppSelector(({ auth }) => auth.isAuthenticated);
+
+  useEffect(() => {
+    if (isAuthenticated) dispatch(fetchUserDocs());
+  }, [dispatch, isAuthenticated]);
+
   return (
-    <GuestLayout>
+    <DefaultLayout>
       <Container>
-        <Link to={Paths.CreateNew}>
-          <Button color={theme.colors.primary}>Create new document</Button>
-        </Link>
+        <h2>Hello Tymon</h2>
+        <DocumentsList documents={documents} />
       </Container>
-    </GuestLayout>
+    </DefaultLayout>
   );
 };
 
-export default CreateNewPage;
+export default HomePage;

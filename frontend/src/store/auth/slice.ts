@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { login, logout, refreshToken } from './actions';
+import { loginFacebook, loginLocal, logout, refreshToken } from './actions';
 import {
   isFulfilledAction,
   isPendingAction,
@@ -9,11 +9,13 @@ import {
 export interface AuthState {
   isAuthenticated: boolean;
   isPending: boolean;
+  isRefreshed: boolean;
 }
 
 const initialState: AuthState = {
   isAuthenticated: false,
   isPending: false,
+  isRefreshed: false,
 };
 
 export const authSlice = createSlice({
@@ -21,14 +23,21 @@ export const authSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(login.fulfilled, (state) => {
-      state.isAuthenticated = true;
-    });
     builder.addCase(refreshToken.fulfilled, (state) => {
       state.isAuthenticated = true;
+      state.isRefreshed = true;
+    });
+    builder.addCase(refreshToken.rejected, (state) => {
+      state.isRefreshed = true;
     });
     builder.addCase(logout.fulfilled, (state) => {
       state.isAuthenticated = false;
+    });
+    builder.addCase(loginFacebook.fulfilled, (state) => {
+      state.isAuthenticated = true;
+    });
+    builder.addCase(loginLocal.fulfilled, (state) => {
+      state.isAuthenticated = true;
     });
     builder.addMatcher(isPendingAction, (state) => {
       state.isPending = true;

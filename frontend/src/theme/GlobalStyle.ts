@@ -32,6 +32,10 @@ const GlobalStyle = createGlobalStyle`
     border-left-width: 2px;
     border-color: #d7d7d7
   }
+
+  a {
+    text-decoration: none;
+  }
 `;
 
 export default GlobalStyle;

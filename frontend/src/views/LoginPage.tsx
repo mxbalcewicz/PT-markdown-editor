@@ -1,74 +1,98 @@
-import React, { useCallback, useContext } from 'react';
-import GuestLayout from 'layouts/GuestLayout';
+import React, { useCallback } from 'react';
+import DefaultLayout from 'layouts/GuestLayout';
 import { Col, Container, Row } from 'components/Grid';
 import LoginForm from 'components/LoginForm';
-import { ThemeContext } from 'styled-components';
+import { useTheme } from 'styled-components';
 import Button from 'components/Button';
 import FacebookLogin from 'react-facebook-login-typed';
 import { useAppDispatch, useAppSelector } from 'hooks';
-import { login, logout } from 'store/auth/actions';
+import { loginFacebook, loginLocal } from 'store/auth/actions';
 import { fetchAll } from 'store/docs/actions';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { getEnvironmentVariable } from 'utils/env';
+import DividerText from '../components/DividerText';
+import { ILoginLocalPayload } from '../types/auth';
+import { Link, useHistory } from 'react-router-dom';
+import Paths from '../constants/paths';
 
 const LoginPage = () => {
-  const theme = useContext(ThemeContext);
+  const history = useHistory();
+  const theme = useTheme();
   const dispatch = useAppDispatch();
   const isPending = useAppSelector(({ auth }) => auth.isPending);
 
   const handleTest = async () => {
     const result = await dispatch(fetchAll()).then(unwrapResult);
-    console.log(result);
   };
 
-  const handleLogout = async () => await dispatch(logout());
+  const handleLogin = async (payload: ILoginLocalPayload) => {
+    try {
+      await dispatch(loginLocal(payload));
+      history.replace(Paths.Home);
+    } catch {}
+  };
 
-  const handleLogin = useCallback(
+  const handleFacebookLogin = useCallback(
     async (response) => {
-      const { accessToken } = response;
-      dispatch(login(accessToken));
+      try {
+        const { accessToken } = response;
+        await dispatch(loginFacebook(accessToken));
+        history.replace(Paths.Home);
+      } catch {}
     },
     [dispatch],
   );
 
   return (
-    <GuestLayout>
+    <DefaultLayout>
       <Container>
+        <Row>
+          <Col md={6} offsetMD={3}>
+            <h2>Login</h2>
+            <LoginForm onSubmit={handleLogin} />
+          </Col>
+        </Row>
+        <Row>
+          <Col md={6} offsetMD={3}>
+            <DividerText>or</DividerText>
+          </Col>
+        </Row>
         <Row>
           <Col md={6} offsetMD={3}>
             <FacebookLogin
               appId={getEnvironmentVariable('FB_APP_ID') || ''}
               fields="name,email,picture"
-              callback={handleLogin}
+              callback={handleFacebookLogin}
               render={(renderProps) => (
                 <Button
                   color={theme.colors.facebook}
                   disabled={isPending}
                   onClick={renderProps.onClick}
+                  block
                 >
                   Log in with Facebook
                 </Button>
               )}
             />
-            <Button
-              color={theme.colors.primary}
-              onClick={handleTest}
-              disabled={isPending}
-            >
-              Test
-            </Button>
-            <Button
-              color={theme.colors.error}
-              onClick={handleLogout}
-              disabled={isPending}
-            >
-              Logout
-            </Button>
-            <LoginForm />
           </Col>
+          <Col md={6} offsetMD={3}>
+            <Link to={Paths.Register}>
+              <Button color={theme.colors.primary} block outlined>
+                Register
+              </Button>
+            </Link>
+          </Col>
+          <Button
+            type="submit"
+            color={theme.colors.primary}
+            onClick={handleTest}
+            disabled={isPending}
+          >
+            Test
+          </Button>
         </Row>
       </Container>
-    </GuestLayout>
+    </DefaultLayout>
   );
 };
 

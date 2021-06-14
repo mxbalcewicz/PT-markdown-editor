@@ -26,9 +26,11 @@ const defaultContent: Descendant[] = [
 
 const ignoredOperations = ['set_selection'];
 
-interface IEditorProps {}
+interface IEditorProps {
+  isReadOnly?: boolean;
+}
 
-const Editor: React.VFC<IEditorProps> = () => {
+const Editor: React.VFC<IEditorProps> = ({ isReadOnly = false }) => {
   const dispatch = useAppDispatch();
   const document = useAppSelector(({ docs }) => docs.document);
   const initialContent =
@@ -44,7 +46,7 @@ const Editor: React.VFC<IEditorProps> = () => {
   );
 
   useEffect(() => {
-    dispatch(save({ content, hash: document!.hash }));
+    if (!isReadOnly) dispatch(save({ content, hash: document!.hash }));
   }, [debouncedContent]);
 
   const handleUpdate = (operations: any) => {
@@ -84,7 +86,7 @@ const Editor: React.VFC<IEditorProps> = () => {
     endpoint: `${api.hostname}:${api.socketPort}`,
     onUpdate: handleUpdate,
     onUsersUpdate: handleUsersUpdate,
-    room: document!.hash,
+    room: document!.id,
   });
 
   return (
@@ -92,6 +94,7 @@ const Editor: React.VFC<IEditorProps> = () => {
       <StyledEditable
         spellCheck
         autoFocus
+        readOnly={isReadOnly}
         renderElement={renderElement}
         placeholder="Write some markdown..."
       />

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Meta, Story } from '@storybook/react';
 
 import Navbar, { INavbarProps } from './Navbar';
@@ -6,7 +6,7 @@ import Toolbar from 'components/Toolbar';
 import AvatarsList from 'components/AvatarsList';
 import { avatars } from 'components/AvatarsList/__mocks__/data';
 import Button from 'components/Button';
-import { ThemeContext } from 'styled-components';
+import { useTheme } from 'styled-components';
 
 export default {
   title: 'Organisms/Navbar',
@@ -23,7 +23,7 @@ export default {
 
 // @ts-ignore
 const Template: Story<INavbarProps> = ({ avatars }) => {
-  const theme = useContext(ThemeContext);
+  const theme = useTheme();
   return (
     <Navbar
       left={<Toolbar />}

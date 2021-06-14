@@ -1,8 +1,10 @@
 enum Paths {
   Home = '/',
   Login = '/login',
+  Register = '/register',
   CreateNew = '/new',
-  Document = '/d/:hash',
+  EditDocument = '/d/:hash',
+  ReadDocument = '/r/:hash',
   NotFound = '*',
 }
 
