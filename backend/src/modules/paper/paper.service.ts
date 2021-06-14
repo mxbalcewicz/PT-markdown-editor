@@ -5,7 +5,6 @@ import { Paper, PaperDocument } from './paper.schema';
 import { v4 as uuidv4 } from 'uuid';
 import { User as UserModel } from '../user/user.schema';
 
-
 @Injectable()
 export class PaperService {
   constructor(
@@ -16,7 +15,7 @@ export class PaperService {
     const hash = uuidv4();
     const readHash = uuidv4();
     const author = user;
-    return this.paperModel.create({ hash, readHash, author});
+    return this.paperModel.create({ hash, readHash, author });
   }
 
   findOne(hash: string): Promise<Paper | null> {
@@ -28,10 +27,15 @@ export class PaperService {
   }
 
   async findAll(user: UserModel): Promise<Partial<Paper>[] | null> {
-    const query: any = {author: user._id};
+    const query: any = { author: user._id };
     const papers = await this.paperModel.find(query).exec();
-    const editedPapers = papers.map(({content,...paper}) => paper);
-    return editedPapers;
+
+    return papers.map((paper) => ({
+      hash: paper.hash,
+      readHash: paper.readHash,
+      author: paper.author,
+      title: paper.title,
+    }));
   }
 
   update(hash: string, content: any) {

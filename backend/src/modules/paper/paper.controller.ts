@@ -14,20 +14,19 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { User as UserModel } from '../user/user.schema';
 import { User } from '../user/user.decorator';
 
-
-@UseGuards(JwtAuthGuard)
 @Controller('documents')
 export class PaperController {
   constructor(private paperService: PaperService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   create(@User() user: UserModel) {
     return this.paperService.create(user);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
-  async findAll(@User() user: UserModel) {
-
+  findAll(@User() user: UserModel) {
     return this.paperService.findAll(user);
   }
 
