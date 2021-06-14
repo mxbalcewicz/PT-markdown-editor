@@ -4,6 +4,8 @@ import { User, UserDocument } from './user.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
+import { RegisterUserDto } from './dto/register-user.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -12,6 +14,15 @@ export class UserService {
   async create(createUserDto: CreateUserDto): Promise<User> {
     const createdCat = new this.userModel(createUserDto);
     return createdCat.save();
+  }
+
+  async createLocal(registerUserDto: RegisterUserDto): Promise<User> {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(registerUserDto.password, salt);
+    registerUserDto = { ...registerUserDto, password: hashedPassword };
+    const registeredUser = new this.userModel(registerUserDto);
+
+    return registeredUser.save();
   }
 
   findAll(): Promise<User[]> {

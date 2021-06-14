@@ -23,6 +23,15 @@ export class User {
 
   @Prop({ default: '' })
   refreshToken: string;
+
+  @Prop()
+  password: string;
+
+  @Prop()
+  username: string;
+
+  @Prop({unique: true})
+  email: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

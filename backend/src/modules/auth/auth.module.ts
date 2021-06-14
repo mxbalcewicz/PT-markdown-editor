@@ -8,6 +8,7 @@ import { UserModule } from '../user/user.module';
 import { FacebookStrategy } from './strategies/facebook.strategy';
 import { AuthController } from './auth.controller';
 import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
+import { LocalStrategy } from './strategies/local.strategy';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, FacebookStrategy, JwtStrategy, JwtRefreshStrategy],
+  providers: [AuthService, FacebookStrategy, JwtStrategy, JwtRefreshStrategy, LocalStrategy],
   exports: [AuthService],
 })
 export class AuthModule {}

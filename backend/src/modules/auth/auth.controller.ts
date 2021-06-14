@@ -1,5 +1,5 @@
 import { Controller, UseGuards, Post, Res } from '@nestjs/common';
-import { Response } from 'express';
+import { response, Response } from 'express';
 import { AuthService } from './auth.service';
 import { User } from '../user/user.decorator';
 import { User as UserModel } from '../user/user.schema';
@@ -8,6 +8,11 @@ import { FacebookAuthGuard } from './guards/facebook-auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { JwtRefreshAuthGuard } from './guards/jwt-refresh-auth.guard';
+import { LocalAuthGuard } from './guards/local-auth.guard';
+import { Body } from '@nestjs/common';
+import { RegisterUserDto } from '../user/dto/register-user.dto';
+import * as bcrypt from 'bcrypt';
+import { AuthLocalUserDto } from '../user/dto/auth-local-user.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -16,7 +21,7 @@ export class AuthController {
 
   @ApiBearerAuth()
   @UseGuards(FacebookAuthGuard)
-  @Post('login')
+  @Post('login/facebook')
   async login(@User() user: AuthUserDto, @Res() response: Response) {
     const {
       refreshTokenCookie,
@@ -45,5 +50,22 @@ export class AuthController {
     } = await this.authService.generateTokens(user);
     response.setHeader('Set-Cookie', refreshTokenCookie);
     return response.send({ accessToken });
+  }
+
+  @UseGuards(LocalAuthGuard)
+  @Post('login/local')
+  async loginLocal(@User() user: UserModel, @Res() response: Response) {
+    const {
+      refreshTokenCookie,
+      accessToken,
+    } = await this.authService.loginLocal(user);
+    response.setHeader('Set-Cookie', refreshTokenCookie);
+    return response.send({ accessToken });
+  }
+
+  @Post('register')
+  async registerLocal(@Body() registerUserDto: RegisterUserDto, @Res() response: Response){
+    this.authService.registerLocal(registerUserDto);
+    return response.status(200);
   }
 }
