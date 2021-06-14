@@ -9,6 +9,8 @@ import {
   TokenPayload,
 } from './types/token-payload.interface';
 import * as bcrypt from 'bcrypt';
+import { RegisterUserDto } from '../user/dto/register-user.dto';
+
 
 @Injectable()
 export class AuthService {
@@ -17,6 +19,24 @@ export class AuthService {
     private jwtService: JwtService,
     private configService: ConfigService,
   ) {}
+  
+  async validateUser(username: string, pass: string): Promise<User> {
+    const user = await this.usersService.findOne(username);
+
+    if (user && bcrypt.compare(pass, user.password)) {
+      return user;
+    }
+
+    return null;
+  }
+
+  async loginLocal(user: User) {
+    return this.generateTokens(user);
+  }
+
+  async registerLocal(user: RegisterUserDto) {
+    await this.usersService.createLocal(user);
+  }
 
   async loginOrRegister(authUserDto: AuthUserDto) {
     let user = await this.usersService.findOneByFacebookId(
